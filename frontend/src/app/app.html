@@ -1,0 +1,80 @@
+<a class="skip-link" href="#main" (click)="skip($event)">{{ i18n.t('util.skip') }}</a>
+
+<div class="tricolour" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<div class="utility no-print">
+  <div class="wrap utility-inner">
+    <div class="group" role="group" [attr.aria-label]="i18n.t('util.textsize')">
+      <span class="label">{{ i18n.t('util.textsize') }}</span>
+      <button type="button" (click)="a11y.smaller()" [attr.aria-label]="i18n.t('util.smaller')">A-</button>
+      <button type="button" (click)="a11y.normal()" [attr.aria-label]="i18n.t('util.normal')">A</button>
+      <button type="button" (click)="a11y.larger()" [attr.aria-label]="i18n.t('util.larger')">A+</button>
+    </div>
+    <button type="button" class="toggle" (click)="a11y.toggleContrast()" [attr.aria-pressed]="a11y.highContrast()">
+      ◐ {{ i18n.t('util.contrast') }}
+    </button>
+    <div class="group" role="group" [attr.aria-label]="i18n.t('util.language')">
+      <button type="button" lang="en" (click)="i18n.setLang('en')" [attr.aria-pressed]="i18n.lang() === 'en'">English</button>
+      <button type="button" lang="hi" (click)="i18n.setLang('hi')" [attr.aria-pressed]="i18n.lang() === 'hi'">हिन्दी</button>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="emblem">
+      @if (site.useEmblemImage && !emblemMissing()) {
+        <img src="emblem/emblem.svg" alt="State Emblem of India" height="64" (error)="emblemMissing.set(true)" />
+      } @else {
+        <app-chakra [size]="60" />
+      }
+    </div>
+    <div class="org">
+      <div class="org-top">
+        <span lang="hi">{{ site.orgHi }}</span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span lang="en">{{ site.orgEn }}</span>
+      </div>
+      <div class="dept" lang="hi">{{ site.deptHi }}</div>
+      <div class="dept en" lang="en">{{ site.deptEn }}</div>
+    </div>
+  </div>
+</header>
+
+<nav class="main-nav no-print" [attr.aria-label]="i18n.t('nav.main')">
+  <div class="wrap nav-inner">
+    <a routerLink="/dashboard" routerLinkActive="active">{{ i18n.t('nav.dashboard') }}</a>
+    <a routerLink="/control" routerLinkActive="active">{{ i18n.t('nav.control') }}</a>
+    <a routerLink="/about" routerLinkActive="active">{{ i18n.t('nav.about') }}</a>
+  </div>
+</nav>
+
+<div class="app-banner">
+  <div class="wrap">
+    <h1>{{ i18n.t('app.title') }}</h1>
+    <p>{{ i18n.t('app.subtitle') }}</p>
+  </div>
+</div>
+
+<main id="main" tabindex="-1" class="wrap main">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <nav class="foot-links no-print" [attr.aria-label]="i18n.t('foot.about')">
+      <a routerLink="/about" fragment="purpose">{{ i18n.t('foot.about') }}</a>
+      <a routerLink="/about" fragment="accessibility">{{ i18n.t('foot.access') }}</a>
+      <a routerLink="/about" fragment="disclaimer">{{ i18n.t('foot.disclaimer') }}</a>
+      <a routerLink="/about" fragment="contact">{{ i18n.t('foot.contact') }}</a>
+    </nav>
+    <p class="owner">{{ i18n.lang() === 'hi' ? site.contentOwnerHi : site.contentOwnerEn }}</p>
+    <p class="meta">
+      {{ i18n.t('foot.version') }} {{ site.version }} &nbsp;|&nbsp;
+      {{ i18n.t('foot.reviewed') }}: {{ site.lastReviewed }}
+    </p>
+    <p class="gov">
+      <span lang="hi">{{ site.orgHi }}</span> · <span lang="en">{{ site.orgEn }}</span>
+    </p>
+  </div>
+</footer>

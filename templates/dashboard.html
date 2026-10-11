@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>OT Mission Control</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>MISSION CONTROL</h1>
+
+    <div class="time" id="time"></div>
+
+</div>
+
+
+<div class="dashboard">
+
+    <div class="left">
+
+        <div class="card">
+
+            <h3>Current Surgery</h3>
+
+            <h1 id="surgery">Cardiac Surgery</h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Readiness Score</h3>
+
+            <div class="score">
+
+                <span id="score">95%</span>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>OT Status</h3>
+
+            <div id="status" class="status ready">
+
+                READY
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="middle">
+
+        <div class="card">
+
+            <div id="gauge"></div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="right">
+
+        <div class="sensor">
+
+            <label>Temperature</label>
+
+            <span id="temp">22 °C</span>
+        </div>
+
+        <div class="sensor">
+
+            <label>Humidity</label>
+
+            <span id="humidity">50%</span>
+        </div>
+
+        <div class="sensor">
+
+            <label>Pressure</label>
+
+            <span id="pressure">20 Pa</span>
+        </div>
+
+        <div class="sensor">
+
+            <label>CO₂</label>
+
+            <span id="co2">500 ppm</span>
+        </div>
+
+        <div class="sensor">
+
+            <label>PM2.5</label>
+
+            <span id="pm25">12</span>
+        </div>
+
+        <div class="sensor">
+
+            <label>PM10</label>
+
+            <span id="pm10">20</span>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>

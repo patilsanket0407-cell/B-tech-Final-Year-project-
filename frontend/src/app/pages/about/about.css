@@ -1,0 +1,8 @@
+.page-title { font-size: 1.35rem; color: var(--navy); margin-bottom: 1rem; }
+.panel { margin-bottom: 1rem; max-width: 900px; scroll-margin-top: 1rem; }
+.panel p { margin: 0 0 0.8rem; }
+.table-wrap { overflow-x: auto; }
+table.data th[scope='row'] { font-weight: 600; }
+.contact { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1.2rem; margin: 0; }
+.contact dt { font-weight: 700; }
+.contact dd { margin: 0; }

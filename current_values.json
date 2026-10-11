@@ -1,0 +1,15 @@
+{
+    "Mode": "AUTO",
+    "Surgery_Type": "General Surgery",
+    "Temperature": 64.0,
+    "Humidity": 64,
+    "Differential_Pressure": 20,
+    "ACH": 25,
+    "CO2": 550,
+    "PM2.5": 5,
+    "PM10": 15,
+    "TVOC": 150,
+    "Airflow_Velocity": 0.25,
+    "Light_Intensity": 1100,
+    "Noise_Level": 45
+}

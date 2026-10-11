@@ -1,0 +1,51 @@
+<h2 class="page-title">{{ i18n.t('about.title') }}</h2>
+
+<section class="panel" id="purpose">
+  <h2>{{ i18n.t('about.purpose.h') }}</h2>
+  <p>{{ i18n.t('about.purpose.p') }}</p>
+</section>
+
+<section class="panel" id="method">
+  <h2>{{ i18n.t('about.method.h') }}</h2>
+  <p>{{ i18n.t('about.method.p') }}</p>
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th scope="col">{{ i18n.t('dash.param') }}</th>
+          <th scope="col">{{ i18n.t('dash.range') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of rules; track s.key) {
+          <tr>
+            <th scope="row">{{ i18n.tv('sensor', s.key) }}</th>
+            <td>{{ rangeText(s) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" id="disclaimer">
+  <h2>{{ i18n.t('about.disclaimer.h') }}</h2>
+  <p>{{ i18n.t('about.disclaimer.p') }}</p>
+</section>
+
+<section class="panel" id="accessibility">
+  <h2>{{ i18n.t('about.access.h') }}</h2>
+  <p>{{ i18n.t('about.access.p') }}</p>
+</section>
+
+<section class="panel" id="contact">
+  <h2>{{ i18n.t('about.contact.h') }}</h2>
+  <dl class="contact">
+    <dt>{{ i18n.t('about.contact.email') }}</dt>
+    <dd><a [href]="'mailto:' + site.contactEmail">{{ site.contactEmail }}</a></dd>
+    <dt>{{ i18n.t('about.contact.phone') }}</dt>
+    <dd>{{ site.contactPhone }}</dd>
+    <dt>{{ i18n.t('about.contact.addr') }}</dt>
+    <dd>{{ site.contactAddress }}</dd>
+  </dl>
+</section>

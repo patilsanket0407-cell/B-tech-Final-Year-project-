@@ -1,0 +1,154 @@
+@import '@fontsource/noto-sans/400.css';
+@import '@fontsource/noto-sans/600.css';
+@import '@fontsource/noto-sans/700.css';
+@import '@fontsource/noto-sans-devanagari/400.css';
+@import '@fontsource/noto-sans-devanagari/600.css';
+@import '@fontsource/noto-sans-devanagari/700.css';
+
+:root {
+  --navy: #0b2a5b;
+  --navy-2: #123f86;
+  --bg: #f2f4f8;
+  --panel: #ffffff;
+  --text: #1a2233;
+  --muted: #4a5568;
+  --border: #c9d1de;
+  --link: #0b4fa8;
+  --saffron: #ff9933;
+  --india-green: #138808;
+  --ok: #17692a;
+  --ok-bg: #e5f4e8;
+  --warn: #8a4b00;
+  --warn-bg: #fff3e0;
+  --bad: #a4161a;
+  --bad-bg: #fdecea;
+  --track: #dfe5ee;
+  --focus: #ffbf47;
+  --on-navy: #ffffff;
+  --shadow: 0 1px 3px rgba(11, 42, 91, 0.12);
+}
+
+:root[data-theme='hc'] {
+  --navy: #000000;
+  --navy-2: #000000;
+  --bg: #000000;
+  --panel: #000000;
+  --text: #ffffff;
+  --muted: #ffffff;
+  --border: #ffffff;
+  --link: #ffff00;
+  --ok: #00ff66;
+  --ok-bg: #000000;
+  --warn: #ffd700;
+  --warn-bg: #000000;
+  --bad: #ff6b6b;
+  --bad-bg: #000000;
+  --track: #555555;
+  --on-navy: #ffffff;
+  --shadow: none;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+a { color: var(--link); }
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 1.1rem 1.25rem;
+}
+:root[data-theme='hc'] .panel { border-width: 2px; }
+
+.panel > h2 {
+  font-size: 1.05rem;
+  color: var(--navy);
+  border-bottom: 2px solid var(--saffron);
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.9rem;
+}
+:root[data-theme='hc'] .panel > h2 { color: var(--text); border-color: #ffff00; }
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  background: var(--navy);
+  color: var(--on-navy);
+  border: 2px solid var(--navy);
+  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+}
+.btn:hover { background: var(--navy-2); border-color: var(--navy-2); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn.secondary { background: transparent; color: var(--navy); }
+.btn.secondary:hover { background: rgba(11, 42, 91, 0.08); }
+:root[data-theme='hc'] .btn { border-color: #fff; background: #000; color: #fff; }
+:root[data-theme='hc'] .btn.secondary { color: #ffff00; border-color: #ffff00; }
+
+.banner { padding: 0.8rem 1rem; border-radius: 4px; border-left: 6px solid; margin-bottom: 1rem; }
+.banner.error { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); font-weight: 600; }
+.banner.success { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 600; }
+
+table.data { width: 100%; border-collapse: collapse; }
+table.data caption { text-align: left; font-weight: 700; padding-bottom: 0.4rem; }
+table.data th, table.data td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); }
+table.data thead th { background: var(--navy); color: var(--on-navy); font-weight: 600; }
+:root[data-theme='hc'] table.data thead th { background: #000; border: 1px solid #fff; }
+table.data tbody tr:nth-child(even) { background: rgba(11, 42, 91, 0.04); }
+:root[data-theme='hc'] table.data tbody tr:nth-child(even) { background: #111; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .no-print { display: none !important; }
+  .panel { box-shadow: none; break-inside: avoid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---- High-contrast overrides for component elements (must be global, not in scoped component CSS) ---- */
+:root[data-theme='hc'][data-theme='hc'] .utility { background: #000; border-bottom: 2px solid #fff; }
+:root[data-theme='hc'][data-theme='hc'] .utility button { background: #000; color: #fff; border-color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .utility button[aria-pressed='true'] { background: #ffff00; color: #000; }
+:root[data-theme='hc'][data-theme='hc'] .site-header { background: #000; border-bottom: 2px solid #fff; }
+:root[data-theme='hc'][data-theme='hc'] .dept { color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .main-nav { border-block: 2px solid #fff; }
+:root[data-theme='hc'][data-theme='hc'] .main-nav a.active { border-bottom-color: #ffff00; color: #ffff00; background: #000; }
+:root[data-theme='hc'][data-theme='hc'] .app-banner { background: #000; border-bottom: 2px solid #fff; }
+:root[data-theme='hc'][data-theme='hc'] .app-banner h1 { color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .site-footer { border-top-color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .page-title { color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .trend .tline { stroke: #ffff00; fill: none; }
+:root[data-theme='hc'][data-theme='hc'] .trend .tdot { stroke: #ffff00; fill: #ffff00; }
+:root[data-theme='hc'][data-theme='hc'] .page-title { color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] legend { color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] input, :root[data-theme='hc'][data-theme='hc'] select { border-color: #fff; }
+:root[data-theme='hc'][data-theme='hc'] .page-title { color: #fff; }
+/* navy Ashoka Chakra needs a white roundel on a black header */
+:root[data-theme='hc'] app-chakra { background: #fff; border-radius: 50%; padding: 2px; }

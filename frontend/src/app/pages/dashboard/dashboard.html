@@ -1,0 +1,114 @@
+<div class="page-head">
+  <h2 class="page-title">{{ i18n.t('dash.title') }}</h2>
+  <div class="head-right no-print">
+    <span class="muted">{{ i18n.t('dash.auto') }}</span>
+    <button type="button" class="btn secondary" (click)="print()">🖶 {{ i18n.t('dash.print') }}</button>
+  </div>
+</div>
+
+@if (failed()) {
+  <div class="banner error" role="alert">{{ i18n.t('dash.error') }}</div>
+}
+
+@if (!reading() && !failed()) {
+  <p class="muted" role="status">{{ i18n.t('dash.loading') }}</p>
+}
+
+@if (reading(); as r) {
+  <div class="summary">
+    <section class="panel status-panel" [class.ready]="isReady()" [class.notready]="!isReady()" aria-live="polite">
+      <h3 class="small-h">{{ i18n.t('dash.status') }}</h3>
+      <div class="status-big">
+        <span class="icon" aria-hidden="true">{{ isReady() ? '✔' : '✖' }}</span>
+        <span>{{ i18n.tv('status', r.OT_Status) }}</span>
+      </div>
+      <dl class="meta">
+        <div>
+          <dt>{{ i18n.t('dash.surgery') }}</dt>
+          <dd>{{ i18n.tv('surgery', r.Surgery_Type) }}</dd>
+        </div>
+        <div>
+          <dt>{{ i18n.t('dash.lastupdate') }}</dt>
+          <dd>{{ i18n.dateTime(r.Timestamp) }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="panel gauge-panel">
+      <h3 class="small-h">{{ i18n.t('dash.score') }}</h3>
+      <svg viewBox="0 0 200 115" class="gauge" role="img"
+           [attr.aria-label]="i18n.t('dash.score') + ': ' + score() + ' ' + i18n.t('dash.outof')">
+        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" class="track" stroke-width="16" stroke-linecap="round" />
+        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" [class]="'bar ' + scoreClass()" stroke-width="16"
+              stroke-linecap="round" [attr.stroke-dasharray]="arcLength" [attr.stroke-dashoffset]="dashOffset()" />
+        <text x="100" y="92" text-anchor="middle" class="g-num">{{ score() }}</text>
+        <text x="100" y="110" text-anchor="middle" class="g-sub">{{ i18n.t('dash.outof') }}</text>
+      </svg>
+    </section>
+
+    <section class="panel">
+      <h3 class="small-h">{{ i18n.t('dash.issues') }} ({{ r.Issues.length }})</h3>
+      @if (r.Issues.length) {
+        <ul class="issues">
+          @for (issue of r.Issues; track issue) {
+            <li><span aria-hidden="true">⚠</span> {{ i18n.issue(issue) }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="no-issues"><span aria-hidden="true">✔</span> {{ i18n.t('dash.noissues') }}</p>
+      }
+    </section>
+  </div>
+
+  <div class="lower">
+    <section class="panel">
+      <h2>{{ i18n.t('dash.params') }}</h2>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th scope="col">{{ i18n.t('dash.param') }}</th>
+              <th scope="col">{{ i18n.t('dash.reading') }}</th>
+              <th scope="col">{{ i18n.t('dash.range') }}</th>
+              <th scope="col">{{ i18n.t('dash.check') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of sensors; track s.key) {
+              <tr>
+                <th scope="row">{{ i18n.tv('sensor', s.key) }}</th>
+                <td><strong>{{ valueOf(s) }}</strong> {{ s.unit }}</td>
+                <td>{{ rangeText(s) || '—' }}</td>
+                <td>
+                  @switch (inRange(s)) {
+                    @case (true) { <span class="chip ok"><span aria-hidden="true">✔</span> {{ i18n.t('check.ok') }}</span> }
+                    @case (false) { <span class="chip bad"><span aria-hidden="true">✖</span> {{ i18n.t('check.bad') }}</span> }
+                    @default { <span class="muted">{{ i18n.t('check.na') }}</span> }
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>{{ i18n.t('dash.trend') }}</h2>
+      <svg viewBox="0 0 400 130" class="trend" role="img"
+           [attr.aria-label]="i18n.t('dash.trend') + ': ' + history().join(', ')">
+        <g class="grid">
+          <line x1="30" y1="10" x2="390" y2="10" /><text x="26" y="14" text-anchor="end">100</text>
+          <line x1="30" y1="40" x2="390" y2="40" class="dash" /><text x="26" y="44" text-anchor="end">70</text>
+          <line x1="30" y1="70" x2="390" y2="70" class="dash" /><text x="26" y="74" text-anchor="end">40</text>
+          <line x1="30" y1="110" x2="390" y2="110" /><text x="26" y="114" text-anchor="end">0</text>
+        </g>
+        <polyline [attr.points]="trend().line" fill="none" class="tline" stroke-width="2.5" />
+        @for (p of trend().pts; track $index) {
+          <circle [attr.cx]="p.x" [attr.cy]="p.y" r="3.2" class="tdot" />
+        }
+      </svg>
+      <p class="muted small">{{ i18n.t('dash.trend.note') }}</p>
+    </section>
+  </div>
+}

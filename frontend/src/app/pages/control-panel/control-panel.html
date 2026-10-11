@@ -1,0 +1,69 @@
+<h2 class="page-title">{{ i18n.t('ctl.title') }}</h2>
+<p class="muted intro">{{ i18n.t('ctl.intro') }}</p>
+
+<div aria-live="polite">
+  @if (error()) { <div class="banner error" role="alert">{{ error() }}</div> }
+  @if (message()) { <div class="banner success" role="status">✔ {{ message() }}</div> }
+</div>
+
+<form class="panel" [formGroup]="form" (ngSubmit)="save()">
+  <div class="row">
+    <div class="field">
+      <label for="mode">{{ i18n.t('ctl.mode') }}</label>
+      <select id="mode" formControlName="Mode">
+        <option value="AUTO">{{ i18n.t('ctl.mode.AUTO') }}</option>
+        <option value="MANUAL">{{ i18n.t('ctl.mode.MANUAL') }}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="surgery">{{ i18n.t('ctl.surgery') }}</label>
+      <select id="surgery" formControlName="Surgery_Type">
+        @for (t of surgeryTypes; track t) {
+          <option [value]="t">{{ i18n.tv('surgery', t) }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>{{ i18n.t('ctl.values') }}</legend>
+    <div class="grid">
+      @for (s of sensors; track s.key) {
+        <div class="field">
+          <label [for]="'f-' + s.key">{{ i18n.tv('sensor', s.key) }} ({{ s.unit }})</label>
+          <input [id]="'f-' + s.key" type="number" inputmode="decimal" [step]="s.step" [formControlName]="s.key"
+                 [attr.aria-describedby]="'h-' + s.key" />
+          <small [id]="'h-' + s.key" class="hint">
+            @if (rangeText(s)) { {{ i18n.t('ctl.accept') }}: {{ rangeText(s) }} }
+          </small>
+        </div>
+      }
+    </div>
+  </fieldset>
+
+  <div class="field key">
+    <label for="adminkey">{{ i18n.t('ctl.adminkey') }}</label>
+    <input id="adminkey" type="password" autocomplete="off" formControlName="AdminKey" aria-describedby="adminkey-hint" />
+    <small id="adminkey-hint" class="hint">{{ i18n.t('ctl.adminkey.hint') }}</small>
+  </div>
+
+  <div class="actions">
+    <button class="btn" type="submit" [disabled]="form.invalid || saving() || loading()">{{ i18n.t('ctl.save') }}</button>
+    <button class="btn secondary" type="button" (click)="test()" [disabled]="form.invalid">{{ i18n.t('ctl.test') }}</button>
+  </div>
+</form>
+
+@if (prediction(); as p) {
+  <section class="panel result" aria-live="polite">
+    <h2>{{ i18n.t('ctl.result') }}</h2>
+    <p class="verdict" [class.ok]="p.OT_Status === 'Ready'" [class.bad]="p.OT_Status !== 'Ready'">
+      <span aria-hidden="true">{{ p.OT_Status === 'Ready' ? '✔' : '✖' }}</span>
+      {{ i18n.tv('status', p.OT_Status) }} — {{ i18n.t('dash.score') }}: {{ p.Readiness_Score }}/100
+    </p>
+    @if (p.Issues.length) {
+      <ul class="issues">
+        @for (i of p.Issues; track i) { <li>⚠ {{ i18n.issue(i) }}</li> }
+      </ul>
+    }
+  </section>
+}
